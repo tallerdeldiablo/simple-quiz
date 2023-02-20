@@ -1,0 +1,94 @@
+
+
+Script
+Quiz questions JavaScript Feb 21
+// Define questions and answers as an array of objects
+const questions = [
+  {
+    question: "What is the capital of France?",
+    options: ["London", "Paris", "Madrid", "Berlin"],
+    answer: "Paris"
+  },
+  {
+    question: "What is the tallest mountain in the world?",
+    options: ["K2", "Mount Everest", "Mount Kilimanjaro", "Mount Rushmore"],
+    answer: "Mount Everest"
+  },
+  {
+    question: "What is the smallest country in the world?",
+    options: ["China", "Vatican City", "Russia", "India"],
+    answer: "Vatican City"
+  }
+];
+
+// Define a variable to keep track of the user's score
+let score = 0;
+
+// Define a function to generate the quiz HTML
+function generateQuiz() {
+  // Loop through each question and generate the HTML for it
+  questions.forEach((question, index) => {
+    // Create a div to hold the question and options
+    const questionDiv = document.createElement("div");
+
+    // Create a heading with the question text
+    const questionHeading = document.createElement("h3");
+    questionHeading.textContent = `Question ${index + 1}: ${question.question}`;
+    questionDiv.appendChild(questionHeading);
+
+    // Loop through each option and create a checkbox for it
+    question.options.forEach(option => {
+      // Create a label for the checkbox
+      const optionLabel = document.createElement("label");
+
+      // Create the checkbox itself
+      const optionCheckbox = document.createElement("input");
+      optionCheckbox.type = "checkbox";
+      optionCheckbox.name = `question${index}`;
+      optionCheckbox.value = option;
+
+      // Add the checkbox to the label
+      optionLabel.appendChild(optionCheckbox);
+
+      // Add the option text to the label
+      optionLabel.appendChild(document.createTextNode(option));
+
+      // Add the label to the question div
+      questionDiv.appendChild(optionLabel);
+    });
+
+    // Add the question div to the quiz div
+    quizDiv.appendChild(questionDiv);
+  });
+
+  // Create a submit button to submit the quiz
+  const submitButton = document.createElement("button");
+  submitButton.textContent = "Submit Quiz";
+  quizDiv.appendChild(submitButton);
+
+  // Add an event listener to the submit button to check the user's answers
+  submitButton.addEventListener("click", () => {
+    // Loop through each question and check the user's answer
+    questions.forEach((question, index) => {
+      // Get all the checkboxes for this question
+      const checkboxes = document.querySelectorAll(`input[name=question${index}]:checked`);
+
+      // If the user selected the correct answer, add a point to the score
+      if (checkboxes.length === 1 && checkboxes[0].value === question.answer) {
+        score++;
+      }
+    });
+
+    // Display the user's score
+    const scoreDiv = document.createElement("div");
+    scoreDiv.textContent = `You scored ${score} out of ${questions.length}!`;
+    quizDiv.appendChild(scoreDiv);
+  });
+}
+
+// Find the quiz div in the HTML
+const quizDiv = document.querySelector("#quiz");
+
+// Generate the quiz
+generateQuiz();
+
